@@ -33,8 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- TODO STEP 12.2 -->
-            <!--<nav-graph android:value="@navigation/mobile_navigation" />-->
+            <!-- This ensures that it will generate intent-filter -->
+            <nav-graph android:value="@navigation/mobile_navigation" />
             <!-- TODO END STEP 12.2-->
 
         </activity>

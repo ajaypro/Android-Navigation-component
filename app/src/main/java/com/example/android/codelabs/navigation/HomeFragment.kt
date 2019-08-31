@@ -18,7 +18,13 @@ package com.example.android.codelabs.navigation
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import androidx.navigation.ui.onNavDestinationSelected
 
 /**
  * Fragment used to show how to navigate to another destination
@@ -36,11 +42,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         //TODO STEP 5 - Set an OnClickListener, using Navigation.createNavigateOnClickListener()
-//        val button = view.findViewById<Button>(R.id.navigate_destination_button)
-//        button?.setOnClickListener {
-//            findNavController().navigate(R.id.flow_step_one_dest, null)
-//        }
+          val button = view.findViewById<Button>(R.id.navigate_destination_button)
+           button?.setOnClickListener {
+             findNavController().navigate(R.id.flow_step_one_dest, null)
+        }
         //TODO END STEP 5
 
         //TODO STEP 6 - Set NavOptions
@@ -58,13 +65,48 @@ class HomeFragment : Fragment() {
         //TODO END STEP 6
 
         //TODO STEP 7.2 - Update the OnClickListener to navigate using an action
-//        view.findViewById<Button>(R.id.navigate_action_button)?.setOnClickListener(
-//                Navigation.createNavigateOnClickListener(R.id.next_action, null)
-//        )
+
+        /**
+         * Method 1 : Using Navigation.CreateNavigation instead of navController
+         *
+         */
+        /*view.findViewById<Button>(R.id.navigate_action_button)?.setOnClickListener (
+                Navigation.createNavigateOnClickListener(R.id.next_action, null)
+        )*/
+
+        // Method 2 (Without Args) :  here nextAction does not take Args as it is defined in xml file if not we need
+        // pass the args in nextAction(flowStepArg)
+
+         view.findViewById<Button>(R.id.navigate_action_button)?.setOnClickListener {
+             //val flowStepArg = 1
+             val action = HomeFragmentDirections.nextAction()
+             findNavController().navigate(action)
+         }
+
+        // Method 3 (With Args) :  here nextAction does take Args as it is not defined in xml as default
+
+        view.findViewById<Button>(R.id.navigate_action_button)?.setOnClickListener {
+            val flowStepArg = 1
+            val action = HomeFragmentDirections.nextAction(flowStepArg)
+            findNavController().navigate(action)
+
+        }
+
+
         //TODO END STEP 7.2
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.shopping_cart -> findNavController().navigate(R.id.shopping_dest)
+        }
+        return super.onOptionsItemSelected(item)
+
+
     }
 }
